@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main$Generated" generated="true"><source path="/Users/yami/Desktop/YJMapTestDemo/node_modules/react-native-qiniu/android/src/main/res"/><source path="/Users/yami/Desktop/YJMapTestDemo/node_modules/react-native-qiniu/android/build/generated/res/rs/release"/><source path="/Users/yami/Desktop/YJMapTestDemo/node_modules/react-native-qiniu/android/build/generated/res/resValues/release"/></dataSet><dataSet config="release$Generated" generated="true"><source path="/Users/yami/Desktop/YJMapTestDemo/node_modules/react-native-qiniu/android/src/release/res"/></dataSet><dataSet config="main" generated-set="main$Generated"><source path="/Users/yami/Desktop/YJMapTestDemo/node_modules/react-native-qiniu/android/src/main/res"><file path="/Users/yami/Desktop/YJMapTestDemo/node_modules/react-native-qiniu/android/src/main/res/values/colors.xml" qualifiers=""><color name="red">#CD5849</color><integer-array name="audioBackgroundColors">
+        <item>@color/blue</item>
+        <item>@color/purple</item>
+        <item>@color/yellow</item>
+        <item>@color/green</item>
+        <item>@color/red</item>
+        <item>@color/cyanBlue</item>
+    </integer-array><color name="cyanBlue">#00FFFF</color><color name="colorPrimaryDark">#303F9F</color><color name="textColor">#FAFAFA</color><color name="yellow">#F8CF5E</color><color name="popupWindowBackground">#353535</color><color name="backgroundColor">#151515</color><color name="editTextBackground">#49494B</color><color name="green">#4FA16A</color><color name="blue">#FF588CEE</color><color name="colorPrimary">#3F51B5</color><color name="versionCodeColor">#57575A</color><color name="purple">#FFAA66CC</color><color name="colorAccent">#34AADC</color><color name="white">#FFFFFF</color><color name="ovalBtnBackground">#34AADC</color></file><file path="/Users/yami/Desktop/YJMapTestDemo/node_modules/react-native-qiniu/android/src/main/res/values/array.xml" qualifiers=""><string-array name="hw_black_list">
+        <item>SM-G9209</item>
+    </string-array><string-array name="conference_configuration">
+        <item>352 X 288、15fps、300Kbps</item>
+        <item>640 X 480、15fps、400Kbps</item>
+        <item>960 X 544、15fps、700Kbps</item>
+        <item>1280 X 720、20fps、1000Kbps</item>
+    </string-array></file><file path="/Users/yami/Desktop/YJMapTestDemo/node_modules/react-native-qiniu/android/src/main/res/values/styles.xml" qualifiers=""><style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fitsSystemWindows">true</item>
+    </style></file><file path="/Users/yami/Desktop/YJMapTestDemo/node_modules/react-native-qiniu/android/src/main/res/values/strings.xml" qualifiers=""><string name="reconnecting_to_room">正在重连……</string><string name="room_text_hint">房间名称</string><string name="join_room">会议房间</string><string name="app_name">YJMapTestDemo</string><string name="null_room_token_toast">获取 room token 失败，请检查网络</string><string name="connected_to_room">连接成功</string><string name="connecting_to">正在连接: %1$s</string></file><file path="/Users/yami/Desktop/YJMapTestDemo/node_modules/react-native-qiniu/android/src/main/res/values/attrs.xml" qualifiers=""><declare-styleable name="CircleTextView">
+        <attr format="color" name="circle_color"/>
+    </declare-styleable></file></source><source path="/Users/yami/Desktop/YJMapTestDemo/node_modules/react-native-qiniu/android/build/generated/res/rs/release"/><source path="/Users/yami/Desktop/YJMapTestDemo/node_modules/react-native-qiniu/android/build/generated/res/resValues/release"/></dataSet><dataSet config="release" generated-set="release$Generated"><source path="/Users/yami/Desktop/YJMapTestDemo/node_modules/react-native-qiniu/android/src/release/res"/></dataSet><mergedItems><configuration qualifiers=""><declare-styleable name="CircleTextView"><attr format="color" name="circle_color"/></declare-styleable></configuration></mergedItems></merger>

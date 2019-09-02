@@ -1,0 +1,9 @@
+<resources>
+    <string name="reconnecting_to_room">正在重连……</string>
+    <string name="connecting_to">正在连接: %1$s</string>
+    <string name="connected_to_room">连接成功</string>
+    <string name="null_room_token_toast">获取 room token 失败，请检查网络</string>
+    <string name="room_text_hint">房间名称</string>
+    <string name="join_room">会议房间</string>
+    <string name="app_name">YJMapTestDemo</string>
+</resources>
