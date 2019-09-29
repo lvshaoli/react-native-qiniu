@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2C14502E2317CA6800C332BD /* QNPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C14502D2317CA6800C332BD /* QNPreviewView.m */; };
 		2C1450312317CA9E00C332BD /* QNPreviewViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C1450302317CA9E00C332BD /* QNPreviewViewManager.m */; };
 		2C97DA7C23161B5F00F9A78B /* QNVideoConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C97DA7B23161B5F00F9A78B /* QNVideoConst.m */; };
 		2C97DB3A23162EDC00F9A78B /* RNQinniuVideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C97DB3923162EDC00F9A78B /* RNQinniuVideoView.m */; };
@@ -30,8 +29,6 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libRNQiniu.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNQiniu.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		2C14502C2317CA6800C332BD /* QNPreviewView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QNPreviewView.h; sourceTree = "<group>"; };
-		2C14502D2317CA6800C332BD /* QNPreviewView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QNPreviewView.m; sourceTree = "<group>"; };
 		2C14502F2317CA9E00C332BD /* QNPreviewViewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QNPreviewViewManager.h; sourceTree = "<group>"; };
 		2C1450302317CA9E00C332BD /* QNPreviewViewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QNPreviewViewManager.m; sourceTree = "<group>"; };
 		2C97DA7A23161B5F00F9A78B /* QNVideoConst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QNVideoConst.h; sourceTree = "<group>"; };
@@ -71,8 +68,6 @@
 			children = (
 				2C14502F2317CA9E00C332BD /* QNPreviewViewManager.h */,
 				2C1450302317CA9E00C332BD /* QNPreviewViewManager.m */,
-				2C14502C2317CA6800C332BD /* QNPreviewView.h */,
-				2C14502D2317CA6800C332BD /* QNPreviewView.m */,
 				2C97DB4023166FFA00F9A78B /* QRDNetworkUtil.h */,
 				2C97DB4123166FFA00F9A78B /* QRDNetworkUtil.m */,
 				2C97DB3B2316309E00F9A78B /* RNQinNiuVideoViewManager.h */,
@@ -145,7 +140,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C14502E2317CA6800C332BD /* QNPreviewView.m in Sources */,
 				2C97DA7C23161B5F00F9A78B /* QNVideoConst.m in Sources */,
 				2C97DB4223166FFA00F9A78B /* QRDNetworkUtil.m in Sources */,
 				2C1450312317CA9E00C332BD /* QNPreviewViewManager.m in Sources */,

@@ -7,13 +7,17 @@
 //
 
 #import "QNPreviewViewManager.h"
-#import "QNPreviewView.h"
+//#import "QNPreviewView.h"
+#import "QNVideoConst.h"
 
 @implementation QNPreviewViewManager
 RCT_EXPORT_MODULE()
-RCT_EXPORT_VIEW_PROPERTY(showLocalVideo, BOOL)
+//RCT_EXPORT_VIEW_PROPERTY(showLocalVideo, BOOL)
 
 - (UIView *)view {
-    return [QNPreviewView new];
+     QNRTCEngine * _rtcEngine = [QNVideoConst share].rtcEngine;
+    UIView *preView = _rtcEngine.previewView;
+    return preView;
 }
+
 @end

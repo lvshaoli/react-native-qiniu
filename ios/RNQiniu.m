@@ -8,12 +8,14 @@
 #import "RNQiniu.h"
 #import "QNVideoConst.h"
 #import "QRDNetworkUtil.h"
+#import <React/RCTEventDispatcher.h>
 
 #define QN_USER_ID_KEY @"QN_USER_ID"
 #define QN_APP_ID_KEY @"QN_APP_ID"
 #define QN_SET_CONFIG_KEY @"QN_SET_CONFIG"
 #define QN_ROOM_NAME_KEY @"QN_ROOM_NAME"
 #define QN_RTC_DEMO_APPID @"d8lk7l4ed"
+
 
 @interface RNQiniu ()
 @property (strong, nonatomic) QNRTCEngine *rtcEngine;
@@ -23,12 +25,7 @@
 
 @implementation RNQiniu
 
-- (dispatch_queue_t)methodQueue
-{
-    return dispatch_get_main_queue();
-}
 RCT_EXPORT_MODULE()
-
 @synthesize bridge = _bridge;
 
 //导出常量
@@ -42,11 +39,10 @@ RCT_EXPORT_MODULE()
  */
 //RCT_EXPORT_METHOD(init:(NSDictionary *)options) {
 RCT_EXPORT_METHOD(initEngine){
-//    [QNVideoConst share].appid = options[@"appid"];
     self.rtcEngine = [[QNRTCEngine alloc] init];
     self.rtcEngine.delegate = self;
     [QNVideoConst share].rtcEngine = self.rtcEngine;
-    
+    [self.rtcEngine startCapture];
     [self requestToken];
 }
 
@@ -84,7 +80,6 @@ RCT_EXPORT_METHOD(initEngine){
     [self.rtcEngine joinRoomWithToken:token];
 }
 
-
 //加入房间
 RCT_EXPORT_METHOD(joinRoom:(NSString *)token uid:(NSInteger)uid) {
     //保存一下uid 在自定义视图使用
@@ -97,7 +92,6 @@ RCT_EXPORT_METHOD(joinRoom:(NSString *)token uid:(NSInteger)uid) {
 RCT_EXPORT_METHOD(leaveRoom){
     [self.rtcEngine leaveRoom];
 }
-
 
 #pragma mark - QNRTCEngineDelegate
 /**
@@ -127,6 +121,31 @@ RCT_EXPORT_METHOD(leaveRoom){
     });
 }
 
+/**
+ * 远端用户加入房间回调
+ *
+ */
+- (void)RTCEngine:(QNRTCEngine *)engine didJoinOfRemoteUserId:(NSString *)userId userData:(NSString *)userData{
+     NSLog(@"---didJoinOfRemoteUserId-");
+     NSMutableDictionary *params = @{}.mutableCopy;
+      params[@"type"] = @"didJoinOfRemoteUserId";
+      params[@"uid"] = userId;
+      params[@"data"] = userData;
+    [self sendEvent:params];
+}
+
+/**
+ * 远端用户离开房间回调
+ *
+ */
+- (void)RTCEngine:(QNRTCEngine *)engine didLeaveOfRemoteUserId:(NSString *)userId {
+    NSLog(@"---didLeaveOfRemoteUserId-");
+     NSMutableDictionary *params = @{}.mutableCopy;
+      params[@"type"] = @"didJoinOfRemoteUserId";
+      params[@"uid"] = userId;
+    [self sendEvent:params];
+}
+
 - (void)RTCEngine:(QNRTCEngine *)engine didPublishLocalTracks:(NSArray<QNTrackInfo *> *)tracks {
       NSLog(@"---didPublishLocalTracks-");
 }
@@ -135,7 +154,10 @@ RCT_EXPORT_METHOD(leaveRoom){
  * 远端用户取消发布音/视频的回调
  */
 - (void)RTCEngine:(QNRTCEngine *)engine didUnPublishTracks:(NSArray<QNTrackInfo *> *)tracks ofRemoteUserId:(NSString *)userId {
-     NSLog(@"---didUnPublishTracks-");
+     NSLog(@"---didUnPublishTracks-对方已离开g房间");
+     NSMutableDictionary *params = @{}.mutableCopy;
+      params[@"type"] = @"didUnPublishTracks";
+    [self sendEvent:params];
 }
 
 /**
@@ -143,17 +165,23 @@ RCT_EXPORT_METHOD(leaveRoom){
  */
 - (void)RTCEngine:(QNRTCEngine *)engine didKickoutByUserId:(NSString *)userId {
       NSLog(@"---didKickoutByUserId-");
+     NSMutableDictionary *params = @{}.mutableCopy;
+      params[@"type"] = @"didKickoutByUserId";
+    [self sendEvent:params];
 }
 
 - (void)RTCEngine:(QNRTCEngine *)engine didSubscribeTracks:(NSArray<QNTrackInfo *> *)tracks ofRemoteUserId:(NSString *)userId {
     NSLog(@"---didSubscribeTracks-");
 //        QRDUserView *userView = [QNVideoConst share].qNVideoView;
     dispatch_async(dispatch_get_main_queue(), ^{
-        
+          NSMutableDictionary *params = @{}.mutableCopy;
+          params[@"type"] = @"didSubscribeTracks";
+        [self sendEvent:params];
         for (QNTrackInfo *trackInfo in tracks) {
-
-//                RNQinniuVideoView *remoteView = [RNQinniuVideoView shareView];
-//            NSLog(@"++++++++++++++%@-----%@", trackInfo.trackId, remoteView);
+            RNQinniuVideoView *remoteView = [QNVideoConst share].qinniuVideoView;
+            QNVideoView *videoView = [remoteView RemoteView];
+            videoView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+            [remoteView insertSubview:videoView atIndex:0];
         }
     });
 }
@@ -166,31 +194,19 @@ RCT_EXPORT_METHOD(leaveRoom){
  */
 - (QNVideoRender *)RTCEngine:(QNRTCEngine *)engine firstVideoDidDecodeOfTrackId:(NSString *)trackId remoteUserId:(NSString *)userId {
       NSLog(@"---firstVideoDidDecodeOfTrackId-");
+      NSMutableDictionary *params = @{}.mutableCopy;
+      params[@"type"] = @"firstVideoDidDecodeOfTrackId";
+    [self sendEvent:params];
+    
     RNQinniuVideoView *remoteView = [QNVideoConst share].qinniuVideoView;
     QNVideoView *videoView = [remoteView RemoteView];
     
     QNVideoRender *render = [[QNVideoRender alloc] init];
     videoView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    [remoteView insertSubview:videoView atIndex:0];
+//    [remoteView insertSubview:videoView atIndex:0];
+    
+    [remoteView addSubview:videoView];
     render.renderView = videoView;
-
-    
-    
-    // 设置l预览窗口的大小
-    CGRect rx = [ UIScreen mainScreen ].bounds;
-    CGFloat width = rx.size.width;
-    [QNVideoConst share].rtcEngine.previewView.frame = CGRectMake(width - 180, 50, 150, 150);
-    
-    
-//    render = [remoteView RemoteURender];
-//    if(render == nil) {
-//        render = [[QNVideoRender alloc] init];
-//         QNVideoView *videoView = [[QNVideoView alloc] initWithFrame:CGRectMake(10, 10, 300, 300)];
-////         videoView.contentMode = UIViewContentModeScaleAspectFit;;
-//        [remoteView addSubview:videoView];
-//        render.renderView = videoView;
-//
-//    }
     return render;
 }
 
@@ -199,6 +215,9 @@ RCT_EXPORT_METHOD(leaveRoom){
  */
 - (void)RTCEngine:(QNRTCEngine *)engine didDetachRenderView:(UIView *)renderView ofTrackId:(NSString *)trackId remoteUserId:(NSString *)userId {
       NSLog(@"---didDetachRenderView-");
+     NSMutableDictionary *params = @{}.mutableCopy;
+      params[@"type"] = @"didDetachRenderView";
+    [self sendEvent:params];
     
 }
 /**
@@ -215,5 +234,16 @@ RCT_EXPORT_METHOD(leaveRoom){
 - (void)RTCEngine:(QNRTCEngine *)engine didVideoMuted:(BOOL)muted ofTrackId:(NSString *)trackId byRemoteUserId:(NSString *)userId {
       NSLog(@"---didVideoMuted-");
 }
+
+- (void)sendEvent:(NSDictionary *)params {
+    [_bridge.eventDispatcher sendDeviceEventWithName:@"QiNiuEvent" body:params];
+}
+
+
+- (dispatch_queue_t)methodQueue
+{
+    return dispatch_get_main_queue();
+}
+
 @end
   

@@ -2,13 +2,18 @@
 package com.qiniulibrary;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.qiniu.droid.rtc.QNCustomMessage;
 import com.qiniu.droid.rtc.QNRTCEngine;
 import com.qiniu.droid.rtc.QNRTCEngineEventListener;
@@ -85,11 +90,17 @@ public class RNQiniuModule extends ReactContextBaseJavaModule {
     @Override
     public void onRemoteUserJoined(String s, String s1) {
       Log.i("---onRemoteUser-----", s + "" + s1);
+      WritableMap map = Arguments.createMap();
+      map.putString("type", "didJoinOfRemoteUserId");
+      commonEvent(map);
     }
 
     @Override
     public void onRemoteUserLeft(String s) {
       Log.i("---onRemoterLeft-----", s + "");
+      WritableMap map = Arguments.createMap();
+      map.putString("type", "didLeaveOfRemoteUserId");
+      commonEvent(map);
     }
 
     @Override
@@ -106,6 +117,9 @@ public class RNQiniuModule extends ReactContextBaseJavaModule {
     @Override
     public void onRemoteUnpublished(String s, List<QNTrackInfo> list) {
       Log.i("---RemoteUnpublish-----", s + "" + list.size());
+      WritableMap map = Arguments.createMap();
+      map.putString("type", "didUnPublishTracks");
+      commonEvent(map);
     }
 
     @Override
@@ -121,13 +135,19 @@ public class RNQiniuModule extends ReactContextBaseJavaModule {
       for(QNTrackInfo track : trackInfoList) {
         if (track.getTrackKind().equals(QNTrackKind.VIDEO)) {
          VideoManager.getInstance().onSubscribedRemoteVideo(track);
-        }
+          WritableMap map = Arguments.createMap();
+          map.putString("type", "didSubscribeTracks");
+        commonEvent(map);
+      }
       }
 
     }
 
     @Override
     public void onKickedOut(String s) {
+      WritableMap map = Arguments.createMap();
+      map.putString("type", "didKickoutByUserId");
+      commonEvent(map);
 
     }
 
@@ -211,6 +231,18 @@ public class RNQiniuModule extends ReactContextBaseJavaModule {
 //              .setMaster(true)
 //              .create();
 //      mEngine.setRenderWindow(localVideoTrack, mLocalWindow);
+  }
+
+  private void commonEvent(WritableMap map) {
+    sendEvent(getReactApplicationContext(), "QiNiuEvent", map);
+  }
+
+  private void sendEvent(ReactContext reactContext,
+                         String eventName,
+                         @Nullable WritableMap params) {
+    reactContext
+            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+            .emit(eventName, params);
   }
 
 }
